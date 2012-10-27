@@ -1,8 +1,6 @@
 import unittest2 as unittest
 
-from solver import *
-
-easy_board = read_board("easy_board.txt")
+from board import Board
 
 def change_cell(board, x, y, _x, _y):
     if board[_x][_y] == 0:
@@ -18,16 +16,26 @@ def change_cell(board, x, y, _x, _y):
 
 class TestBoard(unittest.TestCase):
 
+    def test_from_file(self):
+        board = Board.from_file('easy_board.txt')
+        self.assertIsNotNone(board)
+        self.assertEqual(board.get(0, 1), 0)
+        self.assertEqual(board.get(0, 2), 7)
+
     def test_get_possibilities(self):
-        x, y = 2, 2
-        posib = get_possibilites(easy_board)
-        init_len = len(posib[(x-1,y)])
+        board = Board.from_file('easy_board.txt')
 
-        new_len =  change_cell(easy_board, x, y, x-1, y)
-        self.assertLess(new_len, init_len)
+        self.assertEqual(board.get_possibilities(0, 0), [2, 3, 9])
 
-        new_len = change_cell(easy_board, x, y, x, y-1)
-        self.assertLess(new_len, init_len)
+        board.fill(0, 1, 2)
+        self.assertEqual(board.get_possibilities(0, 0), [3, 9])
 
-        new_len = change_cell(easy_board, x, y, x-1, y-1)
-        self.assertLess(new_len, init_len)
+        board.fill(1, 1, 3)
+        self.assertEqual(board.get_possibilities(0, 0), [9])
+
+        board.fill(8, 0, 9)
+        self.assertEqual(board.get_possibilities(0, 0), None)
+
+        # Ensure we can't get possibilities of a not empty cell.
+        with self.assertRaises(ValueError):
+            board.get_possibilities(8, 0)
