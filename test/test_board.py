@@ -2,25 +2,20 @@ import unittest2 as unittest
 
 from board import Board
 
-def change_cell(board, x, y, _x, _y):
-    if board[_x][_y] == 0:
-        posib = get_possibilites(board)
-        init_value = len(posib[(_x, _y)])
-
-        board[x][y] = posib[(_x, _y)][0]
-        posib = get_possibilites(board)
-
-        return len(posib[_x, _y])
-    else:
-        raise ValueError('Cell not empty (%d, %d) = %d' % (_x, _y, board[_x][_y]))
-
 class TestBoard(unittest.TestCase):
 
     def test_from_file(self):
+        """Check the reading from file was correct."""
         board = Board.from_file('easy_board.txt')
         self.assertIsNotNone(board)
         self.assertEqual(board.get(0, 1), 0)
         self.assertEqual(board.get(0, 2), 7)
+
+    def test_is_valid(self):
+        """Check that a given board has a valid configuration."""
+        board = Board.from_file('easy_board.txt')
+        self.assertIsNotNone(board)
+        self.assertTrue(board.is_valid())
 
     def test_get_possibilities(self):
         board = Board.from_file('easy_board.txt')
