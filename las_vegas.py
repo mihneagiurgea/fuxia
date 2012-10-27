@@ -2,7 +2,7 @@
 
 import random
 
-from solver import init_matrix
+from board import Board
 
 def _is_conflicting(board, i1, j1, i2, j2):
     if board[i1][j1] != board[i2][j2]:
@@ -17,17 +17,26 @@ def _is_conflicting(board, i1, j1, i2, j2):
     return False
 
 def _backtracking(board, givens, position):
-    given = givens[position]
-    while True:
-        board[given[0]][given[1]] = random.randrange(10)
-        for p in xrange(position):
-            if _is_conflicting(board, givens[p], givens[position]):
-                # Current position is not valid.
+    if position >= len(givens):
+        # We've manage to fill all the given positions, we can stop.
+        return board
 
+    # Try to fill in cell for the current given.
+    i, j = givens[position]
 
-
-
-
+    # Compute all posibilities for this cell and shuffle them.
+    possibilities = board.get_possibilities(i, j)
+    random.shuffle(possibilities)
+    # Try to fill in this cell, and if that value does not yield a solution,
+    # switch to the next one.
+    for value in possibilities:
+        board.fill(i, j, value)
+        solution = _backtracking(board, givens, position+1)
+        if solution:
+            return solution
+    # No possible solutions were found (for the current givens).
+    # Take a step back in the recursion, and try another value.
+    return None
 
 def las_vegas(givens_count=11):
     # Generate some random positions.
@@ -35,11 +44,11 @@ def las_vegas(givens_count=11):
     for i in xrange(9):
         for j in xrange(9):
             all_positions.append((i,j))
-    random.shuffle(all_positions)
-    givens = all_positions[givens_count]
+    givens = random.sample(all_positions, givens_count)
 
-    board = init_matrix()
+    board = Board()
+    board = _backtracking(board, givens, 0)
+    print board
 
-def fill_random_cell(board, i, j):
-    """Fills a random cell with a random digit, avoiding conflicts."""
-    while True:
+if __name__ == '__main__':
+    las_vegas()
