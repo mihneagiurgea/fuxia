@@ -4,6 +4,9 @@ def init_matrix(value=0):
         state.append([value] * 9)
     return state
 
+def get_block(i, j):
+    return i / 3 * 3 + j / 3
+
 class Board(object):
 
     @classmethod
@@ -69,3 +72,35 @@ class Board(object):
             row_string = ' '.join(map(str, row))
             string += '%s\n' % row_string
         return string
+
+    def _is_conflicting(self, i1, j1, i2, j2):
+        """Checks if two non-empty cells on the same row, column or block have
+        the same value."""
+        if self._board[i1][j1] == 0 or self._board[i2][j2]:
+            return False
+        if self._board[i1][j1] != self._board[i2][j2]:
+            return False
+        if i1 == i2:
+            return True
+        if j1 == j2:
+            return True
+        if get_block(i1, j1) == get_block(i2, j2):
+            return True
+        return False
+
+    def is_valid(self):
+        """Checks if the board is a correct sudoku configuration.
+
+        The board can be incomplete - contains empty cells.
+        """
+        for i1 in xrange(9):
+            for j1 in xrange(9):
+                for i2 in xrange(9):
+                    for j2 in xrange(9):
+                        if (i1, j1) == (i2, j2):
+                            continue
+                        if self._is_conflicting(i1, j1, i2, j2):
+                            return False
+        return True
+
+

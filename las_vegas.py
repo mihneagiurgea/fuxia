@@ -5,18 +5,6 @@ import random
 from board import Board
 from solver import solve
 
-def _is_conflicting(board, i1, j1, i2, j2):
-    if board[i1][j1] != board[i2][j2]:
-        return False
-    if i1 == i2:
-        return True
-    if j1 == j2:
-        return True
-    # TODO - write block(i,j)
-    if i1 / 3 * 3 + j1 / 3 == i2 / 3 * 3 + j2 / 3:
-        return True
-    return False
-
 def _backtracking(board, givens, position):
     if position >= len(givens):
         # We've manage to fill all the given positions, we can stop.
