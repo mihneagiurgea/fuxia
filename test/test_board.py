@@ -27,6 +27,8 @@ class TestBoard(unittest.TestCase):
 
         self.assertEqual(board.get_possibilities(0, 0), [2, 3, 9])
 
+        self.assertEqual(board.get_possibilities(2, 1), [4, 8])
+
         board.fill(0, 1, 2)
         self.assertEqual(board.get_possibilities(0, 0), [3, 9])
 

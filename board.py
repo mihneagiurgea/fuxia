@@ -1,7 +1,7 @@
 def init_matrix(value=0):
     state = []
-    for i in xrange(10):
-        state.append([value] * 10)
+    for i in xrange(9):
+        state.append([value] * 9)
     return state
 
 class Board(object):
@@ -41,15 +41,15 @@ class Board(object):
 
         self._board[i][j] = value
 
+        # This is O(N), but acceptable for now.
         for k in xrange(9):
-            # This is O(N), but acceptable for now.
             if value in self._possibilities[(i,k)]:
                 self._possibilities[(i,k)].remove(value)
             if value in self._possibilities[(k,j)]:
                 self._possibilities[(k,j)].remove(value)
             # Remove value from all cells within the same block as (i,j).
-            bi = i / 3 + k / 3
-            bj = j / 3 + k % 3
+            bi = i / 3 * 3 + k / 3
+            bj = j / 3 * 3 + k % 3
             if value in self._possibilities[(bi,bj)]:
                 self._possibilities[(bi,bj)].remove(value)
 
