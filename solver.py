@@ -1,32 +1,7 @@
 # States:
 import copy
 
-def init_matrix(value=0):
-    state = []
-    for i in xrange(10):
-        state.append([value] * 10)
-    return state
-
-def read_board(filename):
-    board = []
-    with open(filename, 'r') as f:
-        for line in f:
-            row = [int(x) for x in line.split()]
-            board.append(row)
-    return board
-
-board = init_matrix()
-board[0][1] = 9
-board[1][1] = 7
-board[8][0] = 1
-board[0][8] = 3
-
-def is_valid(board):
-    """Determines if this is a valid board."""
-    for i in xrange(9):
-        possibilites = [1] * 10
-        digits = board[i]
-        if len(digits) !=
+from board import Board
 
 def get_possibilites(board):
     """Gets all possibilites for each cell in this board."""
@@ -68,44 +43,65 @@ def get_possibilites(board):
     return result
 
 def solve(board):
-    cell_to_possibilites = get_possibilites(board)
+    mini, minj, minlen = 10, 10, 10
+    for i in xrange(9):
+        for j in xrange(9):
+            if board.get(i, j) != 0:
+                # This cell is already filled, move on.
+                continue
 
-    #TODO - this is hacky, rewrite
-    if cell_to_possibilites is None:
-        # We can no longer advance.
-        return None
+            possibilities = board.get_possibilities(i, j)
+            if possibilities is None:
+                # We can no longer advance, no solution from this state.
+                return None
+            if len(possibilities) < minlen:
+                mini, minj, minlen = i, j, len(possibilities)
 
-    if len(cell_to_possibilites) == 0:
-        # Final board position, we have a solution.
+    if minlen == 10:
+        # No empty cells found, we found a solution.
         return board
 
-    mini, minj, minlen = 10, 10, 10
-    for (i, j), possibilities in cell_to_possibilites.iteritems():
-        if len(possibilities) < minlen:
-            mini, minj, minlen = i, j, len(possibilities)
-
     # Use only the first.
-    for digit in cell_to_possibilites[(mini,minj)]:
+    for digit in board.get_possibilities(mini, minj):
         new_board = copy.deepcopy(board)
-        new_board[mini][minj] = digit
+        # print 'fill(%s, %s, %s)' % (mini, minj, digit)
+        new_board.fill(mini, minj, digit)
         partial_result = solve(new_board)
         if partial_result:
            return partial_result
 
     return None
 
-def print_board(board):
-    if board is None:
-        print None
-    for row in board:
-        print ' '.join(map(str, row))
+
+    # cell_to_possibilites = get_possibilites(board)
+    #
+    # #TODO - this is hacky, rewrite
+    # if cell_to_possibilites is None:
+    #     # We can no longer advance.
+    #     return None
+    #
+    # if len(cell_to_possibilites) == 0:
+    #     # Final board position, we have a solution.
+    #     return board
+    #
+    # mini, minj, minlen = 10, 10, 10
+    # for (i, j), possibilities in cell_to_possibilites.iteritems():
+    #     if len(possibilities) < minlen:
+    #         mini, minj, minlen = i, j, len(possibilities)
+    #
+    # # Use only the first.
+    # for digit in cell_to_possibilites[(mini,minj)]:
+    #     new_board = copy.deepcopy(board)
+    #     new_board[mini][minj] = digit
+    #     partial_result = solve(new_board)
+    #     if partial_result:
+    #        return partial_result
+    #
+    # return None
 
 if __name__ == '__main__':
-    board = read_board('insane_board.txt')
-    print 'Read board:'
-    print_board(board)
-    #
-    # print 'Pos(0,0): %s' % get_possibilites(board)[0,0]
+    board = Board.from_file('insane_board.txt')
+    print 'Read board:\n%r' % board
+
     solution = solve(board)
-    print 'Solution:'
-    print_board(solution)
+    print 'Solution:\n%r' % solution
