@@ -3,6 +3,7 @@
 import random
 
 from board import Board
+from solver import solve
 
 def _is_conflicting(board, i1, j1, i2, j2):
     if board[i1][j1] != board[i2][j2]:
@@ -46,9 +47,10 @@ def las_vegas(givens_count=11):
             all_positions.append((i,j))
     givens = random.sample(all_positions, givens_count)
 
-    board = Board()
-    board = _backtracking(board, givens, 0)
-    print board
+    partial_board = Board()
+    partial_board = _backtracking(partial_board, givens, 0)
+    solution = solve(partial_board)
+    return solution
 
 if __name__ == '__main__':
-    las_vegas()
+    print las_vegas()
