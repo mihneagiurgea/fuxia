@@ -9,16 +9,20 @@ class Board(object):
     @classmethod
     def from_file(cls, filename):
         """Load a board from a filename."""
-        board = []
+        matrix = []
         with open(filename, 'r') as f:
             for line in f:
                 row = [int(x) for x in line.split()]
-                board.append(row)
-        return Board(board)
+                matrix.append(row)
+        # Initialize an empty board, use fill to add all read values.
+        board = Board()
+        for i in xrange(9):
+            for j in xrange(9):
+                board.fill(i, j, matrix[i][j])
+        return board
 
-    def __init__(self, matrix):
-        # Initialize an empty board, then use __setitem__ to achieve
-        # the desired state (will also udate the possibilites from each cell).
+    def __init__(self):
+        """Initializes an empty Board."""
         self._board = init_matrix()
         # Initialize _possibilities: for each empty cell, store a list of all
         # possible values that can be filled there.
@@ -26,9 +30,6 @@ class Board(object):
         for i in xrange(9):
             for j in xrange(9):
                 self._possibilities[(i,j)] = range(1, 10)
-        for i in xrange(9):
-            for j in xrange(9):
-                self.fill(i, j, matrix[i][j])
 
     def get(self, i, j):
         return self._board[i][j]
@@ -62,7 +63,9 @@ class Board(object):
             # This cell cannot be filled in with any values.
             return None
 
-    def show(self):
-        #TODO - replace with __repr__
-        for row in board:
-            print ' '.join(map(str, row))
+    def __repr__(self):
+        string = ''
+        for row in self._board:
+            row_string = ' '.join(map(str, row))
+            string += '%s\n' % row_string
+        return string
