@@ -38,9 +38,10 @@ class Board(object):
         return self._board[i][j]
 
     def fill(self, i, j, value):
-        """Fills in an empty cell with value."""
+        """Fills a cell (empty or not) with a certain value."""
         if self._board[i][j] != 0:
-            raise ValueError('Call is not empty.')
+            # This cell is not empty, clear it first.
+            self.clear(i, j)
 
         self._board[i][j] = value
 
@@ -56,9 +57,29 @@ class Board(object):
             if value in self._possibilities[(bi,bj)]:
                 self._possibilities[(bi,bj)].remove(value)
 
+    def clear(self, i, j):
+        """Clears a filled cell."""
+        if self._board[i][j] == 0:
+            raise ValueError('Cell is empty.')
+
+        value = self._board[i][j]
+        self._board[i][j] = 0
+
+        # This is O(N), but acceptable for now.
+        for k in xrange(9):
+            if value not in self._possibilities[(i,k)]:
+                self._possibilities[(i,k)].append(value)
+            if value not in self._possibilities[(k,j)]:
+                self._possibilities[(k,j)].append(value)
+            # Remove value from all cells within the same block as (i,j).
+            bi = i / 3 * 3 + k / 3
+            bj = j / 3 * 3 + k % 3
+            if value not in self._possibilities[(bi,bj)]:
+                self._possibilities[(bi,bj)].append(value)
+
     def get_possibilities(self, i, j):
         if self._board[i][j] != 0:
-            raise ValueError('Call is not empty.')
+            raise ValueError('Cell is not empty.')
 
         if self._possibilities[(i,j)]:
             return self._possibilities[(i,j)]

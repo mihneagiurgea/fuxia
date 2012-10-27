@@ -40,5 +40,12 @@ def las_vegas(givens_count=11):
     solution = solve(partial_board)
     return solution
 
+def generate_terminal_pattern():
+    """Generates a terminal pattern (a fully completed & valid Board)."""
+    while True:
+        terminal_pattern = las_vegas(givens_count=11)
+        if terminal_pattern:
+            return terminal_pattern
+
 if __name__ == '__main__':
-    print las_vegas()
+    print generate_terminal_pattern()
