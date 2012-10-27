@@ -21,6 +21,12 @@ board[1][1] = 7
 board[8][0] = 1
 board[0][8] = 3
 
+def is_valid(board):
+    """Determines if this is a valid board."""
+    for i in xrange(9):
+        possibilites = [1] * 10
+        digits = board[i]
+        if len(digits) !=
 
 def get_possibilites(board):
     """Gets all possibilites for each cell in this board."""
@@ -73,27 +79,29 @@ def solve(board):
         # Final board position, we have a solution.
         return board
 
-    # This would not stand on my code review :)
-    cell_to_possibilites_items = cell_to_possibilites.items()
+    mini, minj, minlen = 10, 10, 10
+    for (i, j), possibilities in cell_to_possibilites.iteritems():
+        if len(possibilities) < minlen:
+            mini, minj, minlen = i, j, len(possibilities)
 
-    cell_to_possibilites_items.sort(key=lambda i: len(i[1]))
-
-    for (i, j), possibilities in cell_to_possibilites_items:
-        for digit in possibilities:
-            new_board = copy.deepcopy(board)
-            new_board[i][j] = digit
-            partial_result = solve(new_board)
-            if partial_result:
-                return partial_result
+    # Use only the first.
+    for digit in cell_to_possibilites[(mini,minj)]:
+        new_board = copy.deepcopy(board)
+        new_board[mini][minj] = digit
+        partial_result = solve(new_board)
+        if partial_result:
+           return partial_result
 
     return None
 
 def print_board(board):
+    if board is None:
+        print None
     for row in board:
         print ' '.join(map(str, row))
 
 if __name__ == '__main__':
-    board = read_board('hard_board.txt')
+    board = read_board('insane_board.txt')
     print 'Read board:'
     print_board(board)
     #
