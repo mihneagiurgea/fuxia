@@ -41,3 +41,20 @@ class TestBoard(unittest.TestCase):
         # Ensure we can't get possibilities of a not empty cell.
         with self.assertRaises(ValueError):
             board.get_possibilities(8, 0)
+
+    def test_clear(self):
+        # Test that clearing a cell will increase the possibilities of
+        # cells of the same column / row / block.
+        board = Board.from_file('easy_board.txt')
+
+        self.assertEqual(set(board.get_possibilities(0, 0)), set([2, 3, 9]))
+
+        board.clear(0, 2)
+        self.assertEqual(set(board.get_possibilities(0, 0)), set([2, 3, 7, 9]))
+
+        board.clear(6, 0)
+        self.assertEqual(set(board.get_possibilities(0, 0)), set([2, 3, 4, 7, 9]))
+
+        self.assertEqual(set(board.get_possibilities(2, 6)), set([4, 7, 8, 9]))
+        board.clear(1, 7)
+        self.assertEqual(set(board.get_possibilities(2, 6)), set([3, 4, 7, 8, 9]))
