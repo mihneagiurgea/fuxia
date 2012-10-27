@@ -25,15 +25,19 @@ class TestBoard(unittest.TestCase):
     def test_get_possibilities(self):
         board = Board.from_file('easy_board.txt')
 
-        self.assertEqual(board.get_possibilities(0, 0), [2, 3, 9])
+        self.assertEqual(set(board.get_possibilities(0, 0)), set([2, 3, 9]))
 
-        self.assertEqual(board.get_possibilities(2, 1), [4, 8])
+        self.assertEqual(set(board.get_possibilities(2, 1)), set([4, 8]))
 
         board.fill(0, 1, 2)
-        self.assertEqual(board.get_possibilities(0, 0), [3, 9])
+        self.assertEqual(set(board.get_possibilities(0, 0)), set([3, 9]))
 
         board.fill(1, 1, 3)
         self.assertEqual(board.get_possibilities(0, 0), [9])
+
+        # Try to fill in a cell that is not empty.
+        board.fill(1, 1, 4)
+        self.assertEqual(set(board.get_possibilities(0, 0)), set([3, 9]))
 
         board.fill(8, 0, 9)
         self.assertEqual(board.get_possibilities(0, 0), None)

@@ -35,9 +35,10 @@ class Board(object):
         return self._board[i][j]
 
     def fill(self, i, j, value):
-        """Fills in an empty cell with value."""
+        """Fills a cell (empty or not) with a certain value."""
         if self._board[i][j] != 0:
-            raise ValueError('Cell is not empty.')
+            # This cell is not empty, clear it first.
+            self.clear(i, j)
 
         self._board[i][j] = value
 
