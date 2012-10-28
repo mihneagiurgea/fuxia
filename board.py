@@ -8,6 +8,7 @@ def get_block(i, j):
     return i / 3 * 3 + j / 3
 
 class Board(object):
+    """The Board class manipulates a 3x3x3 Sudoku board."""
 
     @classmethod
     def from_file(cls, filename):
@@ -35,7 +36,7 @@ class Board(object):
                 self._possibilities[(i,j)] = range(1, 10)
 
     def _recompute_possibilites(self):
-        """Gets all possibilites for each cell in this board."""
+        """Recomputes all possibilites for each cell in this board."""
         row_digits = init_matrix(size=10, value=1)
         column_digits = init_matrix(size=10, value=1)
         block_digits = init_matrix(size=10, value=1)
@@ -46,12 +47,12 @@ class Board(object):
                 if cell:
                     row_digits[i][cell] = 0
                     column_digits[j][cell] = 0
-                    block_digits[i / 3 * 3 + j / 3][cell] = 0
+                    block_digits[get_block(i, j)][cell] = 0
 
         self._possibilities = {}
         for i in xrange(9):
             for j in xrange(9):
-                # Skip cell that are not empty.
+                # Skip cells that are not empty.
                 if self._board[i][j]:
                     continue
 
@@ -61,30 +62,20 @@ class Board(object):
                         possibilites[k] = 0
                     if not column_digits[j][k]:
                         possibilites[k] = 0
-                    if not block_digits[i / 3 * 3 + j / 3][k]:
+                    if not block_digits[get_block(i, j)][k]:
                         possibilites[k] = 0
 
                 temp = [x for x in xrange(1, 10) if possibilites[x]]
                 self._possibilities[(i,j)] = temp
 
     def get(self, i, j):
+        """Returns the value of the cell at (i, j), or 0 if it is empty."""
         return self._board[i][j]
 
     def fill(self, i, j, value):
         """Fills a cell (empty or not) with a certain value."""
         self._board[i][j] = value
         self._recompute_possibilites()
-        # # This is O(N), but acceptable for now.
-        # for k in xrange(9):
-        #     if value in self._possibilities.get((i,k), []):
-        #         self._possibilities[(i,k)].remove(value)
-        #     if value in self._possibilities.get((k,j), []):
-        #         self._possibilities[(k,j)].remove(value)
-        #     # Remove value from all cells within the same block as (i,j).
-        #     bi = i / 3 * 3 + k / 3
-        #     bj = j / 3 * 3 + k % 3
-        #     if value in self._possibilities.get((bi,bj), []):
-        #         self._possibilities[(bi,bj)].remove(value)
 
     def clear(self, i, j):
         """Clears a filled cell."""
@@ -92,10 +83,10 @@ class Board(object):
             # This cell is already empty, nothing to clear.
             return
         self._board[i][j] = 0
-
         self._recompute_possibilites()
 
     def get_possibilities(self, i, j):
+        """Returns a list with all possibilities for the empty cell (i, j)."""
         if self._board[i][j] != 0:
             raise ValueError('Cell is not empty.')
 
@@ -141,5 +132,3 @@ class Board(object):
                         if self._is_conflicting(i1, j1, i2, j2):
                             return False
         return True
-
-

@@ -12,7 +12,7 @@ def solve(board):
                 continue
 
             possibilities = board.get_possibilities(i, j)
-            if possibilities is None:
+            if not possibilities:
                 # We can no longer advance, no solution from this state.
                 return None
             if len(possibilities) < minlen:
