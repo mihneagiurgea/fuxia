@@ -4,6 +4,9 @@ import copy
 from board import Board
 
 def solve(board):
+    """Tries to solve a board instance, returning the first solution found.
+    Returns None when no solution exists."""
+    # Find the empty cell with the minimum number of filling possibilities.
     mini, minj, minlen = 10, 10, 10
     for i in xrange(9):
         for j in xrange(9):
@@ -22,10 +25,11 @@ def solve(board):
         # No empty cells found, we found a solution.
         return board
 
-    # Use only the first.
-    for digit in board.get_possibilities(mini, minj):
+    # Fill in the selected cell with each possible digit,
+    # until we find a solution.
+    possibilities = board.get_possibilities(mini, minj)
+    for digit in possibilities:
         new_board = copy.deepcopy(board)
-        # print 'fill(%s, %s, %s)' % (mini, minj, digit)
         new_board.fill(mini, minj, digit)
         partial_result = solve(new_board)
         if partial_result:
