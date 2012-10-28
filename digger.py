@@ -8,6 +8,9 @@ def dig_cells(board, digging_strategy):
     print board
     dig_count = 0
     for (i, j) in digging_strategy.cells:
+        if not digging_strategy.can_dig(board, i, j):
+            continue
+
         prev_value = board.get(i, j)
         board.clear(i, j)
 
@@ -44,6 +47,6 @@ if __name__ == '__main__':
     from las_vegas import generate_terminal_pattern
 
     terminal_pattern = generate_terminal_pattern()
-    digging_strategy = DiggingStrategy(1)
+    digging_strategy = DiggingStrategy(5)
     partial_board = dig_cells(terminal_pattern, digging_strategy)
     print 'Partial board:\n%r' % partial_board
