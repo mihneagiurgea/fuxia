@@ -1,7 +1,7 @@
-def init_matrix(value=0):
+def init_matrix(size=9, value=0):
     state = []
-    for i in xrange(9):
-        state.append([value] * 9)
+    for i in xrange(size):
+        state.append([value] * size)
     return state
 
 def get_block(i, j):
@@ -34,6 +34,44 @@ class Board(object):
             for j in xrange(9):
                 self._possibilities[(i,j)] = range(1, 10)
 
+    def _recompute_possibilites(self):
+        """Gets all possibilites for each cell in this board."""
+        row_digits = init_matrix(size=10, value=1)
+        column_digits = init_matrix(size=10, value=1)
+        block_digits = init_matrix(size=10, value=1)
+        # TODO - this break the pattern, improve it
+        for i in xrange(9):
+            for j in xrange(9):
+                cell = self._board[i][j]
+                if cell:
+                    row_digits[i][cell] = 0
+                    column_digits[j][cell] = 0
+                    block_digits[i / 3 * 3 + j / 3][cell] = 0
+
+        self._possibilities = {}
+        for i in xrange(9):
+            for j in xrange(9):
+                # Skip cell that are not empty.
+                if self._board[i][j]:
+                    continue
+
+                possibilites = [1] * 10
+                for k in xrange(1, 10):
+                    if not row_digits[i][k]:
+                        possibilites[k] = 0
+                    if not column_digits[j][k]:
+                        possibilites[k] = 0
+                    if not block_digits[i / 3 * 3 + j / 3][k]:
+                        possibilites[k] = 0
+                temp = []
+                for x in xrange(1, 10):
+                    if possibilites[x]:
+                        temp.append(x)
+                # No valid choises for this cell.
+                if not temp:
+                    return None
+                self._possibilities[(i,j)] = temp
+
     def get(self, i, j):
         return self._board[i][j]
 
@@ -47,14 +85,14 @@ class Board(object):
 
         # This is O(N), but acceptable for now.
         for k in xrange(9):
-            if value in self._possibilities[(i,k)]:
+            if value in self._possibilities.get((i,k), []):
                 self._possibilities[(i,k)].remove(value)
-            if value in self._possibilities[(k,j)]:
+            if value in self._possibilities.get((k,j), []):
                 self._possibilities[(k,j)].remove(value)
             # Remove value from all cells within the same block as (i,j).
             bi = i / 3 * 3 + k / 3
             bj = j / 3 * 3 + k % 3
-            if value in self._possibilities[(bi,bj)]:
+            if value in self._possibilities.get((bi,bj), []):
                 self._possibilities[(bi,bj)].remove(value)
 
     def clear(self, i, j):
@@ -62,21 +100,9 @@ class Board(object):
         if self._board[i][j] == 0:
             # This cell is already empty, nothing to clear.
             return
-
-        value = self._board[i][j]
         self._board[i][j] = 0
 
-        # This is O(N), but acceptable for now.
-        for k in xrange(9):
-            if value not in self._possibilities[(i,k)]:
-                self._possibilities[(i,k)].append(value)
-            if value not in self._possibilities[(k,j)]:
-                self._possibilities[(k,j)].append(value)
-            # Remove value from all cells within the same block as (i,j).
-            bi = i / 3 * 3 + k / 3
-            bj = j / 3 * 3 + k % 3
-            if value not in self._possibilities[(bi,bj)]:
-                self._possibilities[(bi,bj)].append(value)
+        self._recompute_possibilites()
 
     def get_possibilities(self, i, j):
         if self._board[i][j] != 0:
