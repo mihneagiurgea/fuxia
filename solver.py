@@ -72,10 +72,8 @@ def branch_out_in_cloud(board, i, j, possibilities, depth):
         new_board.fill(i, j, digit)
         jid = cloud.call(solve, new_board, depth)
         jids.append(jid)
-        # partial_result = solve(new_board)
     for result in cloud.iresult(jids):
         if result:
-            # TODO - kill all jobs
             return result
     return None
 

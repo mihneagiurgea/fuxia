@@ -67,6 +67,3 @@ def generate_terminal_pattern():
         terminal_pattern = las_vegas(givens_count=11)
         if terminal_pattern:
             return terminal_pattern
-
-if __name__ == '__main__':
-    print generate_terminal_pattern()
