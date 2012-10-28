@@ -119,10 +119,12 @@ class Board(object):
     def __repr__(self):
         string = ''
         for index, row in enumerate(self._board):
-            if index % 3 == 0:
+            if index == 0:
                 string += '\n'
+            elif index % 3 == 0:
+                string += '-------+-------+-------\n'
             row_string = ' '.join([str(x) if x else '_' for x in row])
-            row_string = '%s   %s   %s' % \
+            row_string = '%s | %s | %s' % \
                 (row_string[:5], row_string[6:11], row_string[12:])
             string += ' %s\n' % row_string
         return string
