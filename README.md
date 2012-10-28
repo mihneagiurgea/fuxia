@@ -22,6 +22,21 @@ same five levels in our implementation of the generator:
   - difficult
   - evil
 
+==========
+How To Run
+==========
+Project
+-------
+<code>
+$ python
+</code>
+Tests
+-----
+ - test files are in the __test/__ folder and can be run using nosetests. For example:
+    <code> $ nosetests test/test_board.py </code>
+ - there are several input boards we use for testing, each with a different difficulty
+ level. All can be found in the subfolder: __fixtures/__
+
 ___"Generating Sudoku puzzles is easy. Generating evil Sudoku puzzles is... EVIL."___
 
 Four factors affecting the difficulty level are taken into consideration in this metrics
