@@ -1,4 +1,3 @@
-import random
 import copy
 
 from board import Board
@@ -48,11 +47,3 @@ class Digger(object):
             if dig_count >= self.digging_strategy.limit:
                 return board
         return board
-
-if __name__ == '__main__':
-    from las_vegas import generate_terminal_pattern
-
-    terminal_pattern = generate_terminal_pattern()
-    digging_strategy = DiggingStrategy(5)
-    partial_board = dig_cells(terminal_pattern, digging_strategy)
-    print 'Partial board:\n%r' % partial_board
