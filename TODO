@@ -1,5 +1,4 @@
  * move all boards.txt into a folder (in test/fixtures)
  * comment every file :D
  * add MIT license
- * test digger (returns something with a unique solution)
  * write README
