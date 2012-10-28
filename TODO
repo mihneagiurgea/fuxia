@@ -1,0 +1,7 @@
+ * move all boards.txt into a folder (in test/fixtures)
+ * comment every file :D
+ * add MIT license
+ * test digging strategy (is perm & is in correct range)
+ * test digger (returns something with a unique solution)
+ * test las vegas (returns a board with no contradictions)
+ * implement restrictions in Digger
