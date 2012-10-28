@@ -118,9 +118,13 @@ class Board(object):
 
     def __repr__(self):
         string = ''
-        for row in self._board:
-            row_string = ' '.join(map(str, row))
-            string += '%s\n' % row_string
+        for index, row in enumerate(self._board):
+            if index % 3 == 0:
+                string += '\n'
+            row_string = ' '.join([str(x) if x else '_' for x in row])
+            row_string = '%s   %s   %s' % \
+                (row_string[:5], row_string[6:11], row_string[12:])
+            string += ' %s\n' % row_string
         return string
 
     def _is_conflicting(self, i1, j1, i2, j2):
