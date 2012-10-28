@@ -25,16 +25,23 @@ same five levels in our implementation of the generator:
 ==========
 How To Run
 ==========
+Install
+-------
+$ sudo pip install cloud
+$ picloud setup
+    _email_: __s.kipy3@gmail.com__
+    _password_: __hackathon__
+
 Project
 -------
 <code>
-$ python
+$ ./bin/generate 1
 </code>
 Tests
 -----
- - test files are in the __test/__ folder and can be run using nosetests. For example:
+ - test files are in the __test/__ folder and can be run using nosetests:
 <code>
-$ nosetests test/test_board.py
+$ nosetests test/ -v
 </code>
  - there are several input boards we use for testing, each with a different difficulty
  level. All can be found in the subfolder: __fixtures/__

@@ -2,12 +2,32 @@
 import sys
 import cloud
 
+import optparse
+
 from generate import generate_sudoku_with_unique_solution
 
+def process_command_line(arguments):
+    """Process the command line arguments"""
+    parser = optparse.OptionParser(usage='Usage: %prog QUEUE <options>')
+    # Add parameters
+    parser.add_option("-s", "--simulate",
+                  action="store_true", dest="simulate", default=False,
+                  help="Simulate on local host.")
+    (options, args) = parser.parse_args(arguments[1:])
+
+    #if not args or options.critical is None:
+        #sys.exit('Bad Command. Use -h,--help to see correct usage.')
+    return (options, args)
+
 if __name__ == '__main__':
-    difficulty = int(sys.argv[1])
+    settings, args = process_command_line(sys.argv)
+    print settings
+    print args
+
+    difficulty = int(args[0])
 
     # cloud.start_simulator()
     jid = cloud.call(generate_sudoku_with_unique_solution, difficulty)
     sudoku = cloud.result(jid)
     print 'Generated sudoku with unique solution:\n%r' % sudoku
+
