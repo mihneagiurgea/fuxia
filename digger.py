@@ -21,11 +21,12 @@
 
 import copy
 
-from board import Board
 from solver import solve
-from digging_strategy import DiggingStrategy
 
 class Digger(object):
+    """Starting from a complete Sudoku board, tries to 'digg out' cells such
+    that the remaining board has one and only solution. The difficulty of
+    the final board is determined by an instance of a DiggingStrategy."""
 
     def __init__(self, digging_strategy):
         self.digging_strategy = digging_strategy
@@ -47,7 +48,7 @@ class Digger(object):
             for new_value in possibilities:
                 # Check if there is a solution with new_value in cell (i, j)
                 board.fill(i, j, new_value)
-                # comments?
+                # Does this board have any (other) solutions?
                 if solve(board):
                     has_another_solution = True
                     break
@@ -56,11 +57,9 @@ class Digger(object):
             # different than new_value, than we cannot dig this cell (it would
             # yield a board with multiple solutions).
             if has_another_solution:
-                # print 'Has solution: (%d, %d)' % (i, j)
                 # Discard changes.
                 board.fill(i, j, prev_value)
             else:
-                # print 'Dug out: (%d, %d)' % (i, j)
                 # This cell is a correct dig, leave it like this.
                 board.clear(i, j)
                 dig_count += 1

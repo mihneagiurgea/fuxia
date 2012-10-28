@@ -61,7 +61,6 @@ class Board(object):
         row_digits = init_matrix(size=10, value=1)
         column_digits = init_matrix(size=10, value=1)
         block_digits = init_matrix(size=10, value=1)
-        # TODO - this break the pattern, improve it
         for i in xrange(9):
             for j in xrange(9):
                 cell = self._board[i][j]
