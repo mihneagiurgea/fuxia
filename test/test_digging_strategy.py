@@ -14,6 +14,6 @@ class TestDiggingStrategy(unittest.TestCase):
             self.assertTrue(len(cell) == 2)
             self.assertIn(cell[0], range(0,9))
             self.assertIn(cell[1], range(0,9))
-
+        # Test we have 81 different cells.
         self.assertTrue(len(test.cells) == 81)
         self.assertTrue( len(set(test.cells)) == len(test.cells) )
