@@ -27,16 +27,22 @@ How To Run
 ==========
 Install
 -------
+<code>
 $ sudo pip install cloud
 $ picloud setup
     _email_: __s.kipy3@gmail.com__
     _password_: __hackathon__
+</code>
 
 Project
 -------
 <code>
-$ ./bin/generate 1
+$ ./generate difficulty_level [--simulate]
 </code>
+ - difficulty_level can be [1,2,3,4,5]
+ - without the simulate flag, the program will not simulate picloud on the
+ localhost and will try to connect to the site.
+
 Tests
 -----
  - test files are in the __test/__ folder and can be run using nosetests:
