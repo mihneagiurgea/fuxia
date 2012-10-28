@@ -35,6 +35,9 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(set(board.get_possibilities(0, 0)), set([3, 9]))
 
         board.fill(8, 0, 9)
+        self.assertEqual(board.get_possibilities(0, 0), [3])
+
+        board.fill(7, 0, 3)
         self.assertEqual(board.get_possibilities(0, 0), None)
 
         # Ensure we can't get possibilities of a not empty cell.
