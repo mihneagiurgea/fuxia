@@ -64,6 +64,7 @@ The Digging Strategy
 Two variables are used that set restrictions on the digging operations: the first one tells us the maximum total number of
 digged cells and the second one tells us the maximum number of digged cells on a row or an a column.
 
+
 __The Digging Orders:__
  - Left to Right then Top to Bottom
  - Wandering along “S”
