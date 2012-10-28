@@ -6,18 +6,45 @@ class DiggingStrategy(object):
     def __init__(self, difficulty):
         if not isinstance(difficulty, int):
             raise ValueError('invalid difficulty argument: expected int')
-        if difficulty in (1, 2):
+        if difficulty == 1:
             self.generate_randomized_cells()
+            self.max_empty_cells = 4
+            self.limit = 31
+        elif difficulty == 2:
+            self.generate_randomized_cells()
+            self.max_empty_cells = 5
+            self.limit = 45
         elif difficulty == 3:
             self.generate_jumping_once_cell()
+            self.max_empty_cells = 6
+            self.limit = 49
         elif difficulty == 4:
             self.generate_wandering_along_s()
+            self.max_empty_cells = 7
+            self.limit = 53
         elif difficulty == 5:
             self.generate_ordered_cells()
+            self.max_empty_cells = 9
+            self.limit = 59
         else:
             raise ValueError('invalid difficulty level: %d' % difficulty)
 
-        self.limit = 50
+    def can_dig(self, board, i, j):
+        nr_empty_cells = 0
+        for k in xrange(9):
+            if board.get(i, k) == 0:
+                nr_empty_cells += 1
+        if nr_empty_cells >= self.max_empty_cells:
+            return False
+
+        nr_empty_cells = 0
+        for k in xrange(9):
+            if board.get(k, j) == 0:
+                nr_empty_cells += 1
+        if nr_empty_cells >= self.max_empty_cells:
+            return False
+
+        return True
 
     def generate_ordered_cells(self):
         self.cells = []
