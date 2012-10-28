@@ -9,6 +9,39 @@ Team: FUXIA
     Sonia Stan
     Mihnea Giurgea
 
+===============
+Install and Run
+===============
+Install
+-------
+    1) Install picloud http://docs.picloud.com/quickstart.html
+        sudo pip install cloud
+
+    2) Configure picloud 
+        picloud setup
+            email: s.kipy3@gmail.com
+            password: hackathon
+
+Run
+---
+<code>
+$ ./generate difficulty_level [--simulate]
+</code>
+ - difficulty_level can be [1,2,3,4,5]
+ - without the simulate flag, the program will not simulate picloud on the
+ localhost and will try to connect to the site.
+
+Running Tests
+-------------
+ - test files are in the __test/__ folder and can be run using nosetests:
+
+
+    $ nosetests test/ -v
+
+
+ - there are several input boards we use for testing, each with a different difficulty
+ level. All can be found in the subfolder: __fixtures/__
+
 ====================
 Project Description:
 ====================
@@ -21,36 +54,6 @@ same five levels in our implementation of the generator:
   - medium
   - difficult
   - evil
-
-==========
-How To Run
-==========
-Install
--------
-<code>
-$ sudo pip install cloud
-$ picloud setup
-    _email_: __s.kipy3@gmail.com__
-    _password_: __hackathon__
-</code>
-
-Project
--------
-<code>
-$ ./generate difficulty_level [--simulate]
-</code>
- - difficulty_level can be [1,2,3,4,5]
- - without the simulate flag, the program will not simulate picloud on the
- localhost and will try to connect to the site.
-
-Tests
------
- - test files are in the __test/__ folder and can be run using nosetests:
-<code>
-$ nosetests test/ -v
-</code>
- - there are several input boards we use for testing, each with a different difficulty
- level. All can be found in the subfolder: __fixtures/__
 
 ___"Generating Sudoku puzzles is easy. Generating evil Sudoku puzzles is... EVIL."___
 
