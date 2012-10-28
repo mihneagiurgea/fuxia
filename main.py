@@ -19,4 +19,3 @@ def generate_sudoku_with_unique_solution(difficulty):
 if __name__ == '__main__':
     sudoku = generate_sudoku_with_unique_solution(5)
     print 'Generated sudoku with unique solution:\n%r' % sudoku
-
