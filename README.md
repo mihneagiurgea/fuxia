@@ -65,9 +65,10 @@ Two variables are used that set restrictions on the digging operations: the firs
 digged cells and the second one tells us the maximum number of digged cells on a row or an a column.
 
 __The Digging Order:__
-    - Sequence 1: Left to Right then Top to Bottom (seen in Figure 5.3 )
-    - Sequence 2: Wandering along “S” (seen in Figure 5.3 (b))
-    - Sequence 3: Jumping one cell (seen in Figure 5.3 (c))
+
+    - Sequence 1: Left to Right then Top to Bottom
+    - Sequence 2: Wandering along “S”
+    - Sequence 3: Jumping one cell
     - Sequence 4: Randomizing globally
 
 Project Architecture:
