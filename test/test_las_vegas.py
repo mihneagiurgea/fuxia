@@ -1,6 +1,10 @@
-import unittest2 as unittest
+import unittest
+import cloud
 
 from las_vegas import generate_terminal_pattern
+
+# Initiate the picloud simulator (localhost only) to speed up tests.
+cloud.start_simulator()
 
 class TestLasVegas(unittest.TestCase):
     """Testing the Las Vegas algorithm, the returned board must be a valid
