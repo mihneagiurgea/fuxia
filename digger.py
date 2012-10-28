@@ -5,12 +5,10 @@ from solver import solve
 from digging_strategy import DiggingStrategy
 
 def dig_cells(board, digging_strategy):
+    print board
     dig_count = 0
     for (i, j) in digging_strategy.cells:
         prev_value = board.get(i, j)
-        if prev_value == 0:
-            # Skip empty cells, nothing to dig.
-            continue
         board.clear(i, j)
 
         possibilities = board.get_possibilities(i, j)
@@ -21,7 +19,6 @@ def dig_cells(board, digging_strategy):
             # Check if there is a solution with new_value in cell (i, j)
             board.fill(i, j, new_value)
             # comments?
-            print 'Trying to solve | diggs = %d\n%r' % (dig_count, board)
             if solve(board):
                 has_another_solution = True
                 break
@@ -30,9 +27,11 @@ def dig_cells(board, digging_strategy):
         # different than new_value, than we cannot dig this cell (it would
         # yield a board with multiple solutions).
         if has_another_solution:
+            # print 'Has solution: (%d, %d)' % (i, j)
             # Discard changes.
             board.fill(i, j, prev_value)
         else:
+            # print 'Dug out: (%d, %d)' % (i, j)
             # This cell is a correct dig, leave it like this.
             board.clear(i, j)
             dig_count += 1
@@ -42,7 +41,9 @@ def dig_cells(board, digging_strategy):
     return board
 
 if __name__ == '__main__':
-    board = Board.from_file('easy_board.txt')
+    from las_vegas import generate_terminal_pattern
+
+    terminal_pattern = generate_terminal_pattern()
     digging_strategy = DiggingStrategy(1)
-    partial_board = dig_cells(board, digging_strategy)
+    partial_board = dig_cells(terminal_pattern, digging_strategy)
     print 'Partial board:\n%r' % partial_board
