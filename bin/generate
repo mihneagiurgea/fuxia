@@ -16,10 +16,9 @@ def process_command_line(arguments):
 
 if __name__ == '__main__':
     settings, args = process_command_line(sys.argv)
-    simulated = settings['simulated']
     difficulty = int(args[0])
 
-    if simulated:
+    if settings.simulate:
         cloud.start_simulator()
     jid = cloud.call(generate_sudoku_with_unique_solution, difficulty)
     sudoku = cloud.result(jid)
