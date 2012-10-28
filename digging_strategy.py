@@ -22,7 +22,9 @@
 import random
 
 class DiggingStrategy(object):
-    """TODO - write me"""
+    """A Digging Strategy is responsible for choosing the order in which the
+    cells will be dugg, as well as the constants that define the difficulty
+    levels."""
 
     def __init__(self, difficulty):
         if not isinstance(difficulty, int):
