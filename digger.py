@@ -21,7 +21,7 @@ def dig_cells(board, digging_strategy):
             # Check if there is a solution with new_value in cell (i, j)
             board.fill(i, j, new_value)
             # comments?
-            # print 'Trying to solve | diggs = %d\n%r' % (dig_count, board)
+            print 'Trying to solve | diggs = %d\n%r' % (dig_count, board)
             if solve(board):
                 has_another_solution = True
                 break
@@ -34,6 +34,7 @@ def dig_cells(board, digging_strategy):
             board.fill(i, j, prev_value)
         else:
             # This cell is a correct dig, leave it like this.
+            board.clear(i, j)
             dig_count += 1
 
         if dig_count >= digging_strategy.limit:
