@@ -34,7 +34,7 @@ def solve(board):
     return None
 
 if __name__ == '__main__':
-    board = Board.from_file('insane_board.txt')
+    board = Board.from_file('test/fixtures/insane_board.txt')
     print 'Read board:\n%r' % board
 
     solution = solve(board)
