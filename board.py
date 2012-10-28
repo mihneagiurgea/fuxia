@@ -63,13 +63,8 @@ class Board(object):
                         possibilites[k] = 0
                     if not block_digits[i / 3 * 3 + j / 3][k]:
                         possibilites[k] = 0
-                temp = []
-                for x in xrange(1, 10):
-                    if possibilites[x]:
-                        temp.append(x)
-                # No valid choises for this cell.
-                if not temp:
-                    return None
+
+                temp = [x for x in xrange(1, 10) if possibilites[x]]
                 self._possibilities[(i,j)] = temp
 
     def get(self, i, j):
@@ -77,23 +72,19 @@ class Board(object):
 
     def fill(self, i, j, value):
         """Fills a cell (empty or not) with a certain value."""
-        if self._board[i][j] != 0:
-            # This cell is not empty, clear it first.
-            self.clear(i, j)
-
         self._board[i][j] = value
-
-        # This is O(N), but acceptable for now.
-        for k in xrange(9):
-            if value in self._possibilities.get((i,k), []):
-                self._possibilities[(i,k)].remove(value)
-            if value in self._possibilities.get((k,j), []):
-                self._possibilities[(k,j)].remove(value)
-            # Remove value from all cells within the same block as (i,j).
-            bi = i / 3 * 3 + k / 3
-            bj = j / 3 * 3 + k % 3
-            if value in self._possibilities.get((bi,bj), []):
-                self._possibilities[(bi,bj)].remove(value)
+        self._recompute_possibilites()
+        # # This is O(N), but acceptable for now.
+        # for k in xrange(9):
+        #     if value in self._possibilities.get((i,k), []):
+        #         self._possibilities[(i,k)].remove(value)
+        #     if value in self._possibilities.get((k,j), []):
+        #         self._possibilities[(k,j)].remove(value)
+        #     # Remove value from all cells within the same block as (i,j).
+        #     bi = i / 3 * 3 + k / 3
+        #     bj = j / 3 * 3 + k % 3
+        #     if value in self._possibilities.get((bi,bj), []):
+        #         self._possibilities[(bi,bj)].remove(value)
 
     def clear(self, i, j):
         """Clears a filled cell."""
