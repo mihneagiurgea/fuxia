@@ -64,7 +64,7 @@ class TestBoard(unittest.TestCase):
         self.assertPossibilities(self.board, 2, 6, [4, 7, 8, 9])
 
     def test_clear_on_filled_board(self):
-        board = Board.from_file('filled_board.txt')
+        board = Board.from_file('test/fixtures/filled_board.txt')
 
         board.clear(0, 0)
         board.clear(0, 1)
