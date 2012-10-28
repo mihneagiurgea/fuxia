@@ -1,4 +1,5 @@
 import sys
+import cloud
 
 from digging_strategy import DiggingStrategy
 from digger import Digger
@@ -17,5 +18,10 @@ def generate_sudoku_with_unique_solution(difficulty):
     return sudoku
 
 if __name__ == '__main__':
-    sudoku = generate_sudoku_with_unique_solution(5)
+    difficulty = int(sys.argv[1])
+
+    # cloud.start_simulator()
+    # sudoku = generate_sudoku_with_unique_solution(difficulty)
+    jid = cloud.call(generate_sudoku_with_unique_solution, difficulty)
+    sudoku = cloud.result(jid)
     print 'Generated sudoku with unique solution:\n%r' % sudoku
