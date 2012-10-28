@@ -60,7 +60,8 @@ class Board(object):
     def clear(self, i, j):
         """Clears a filled cell."""
         if self._board[i][j] == 0:
-            raise ValueError('Cell is empty.')
+            # This cell is already empty, nothing to clear.
+            return
 
         value = self._board[i][j]
         self._board[i][j] = 0
