@@ -33,7 +33,9 @@ $ python
 Tests
 -----
  - test files are in the __test/__ folder and can be run using nosetests. For example:
-    <code> $ nosetests test/test_board.py </code>
+<code>
+$ nosetests test/test_board.py
+</code>
  - there are several input boards we use for testing, each with a different difficulty
  level. All can be found in the subfolder: __fixtures/__
 
@@ -85,9 +87,6 @@ __The Digging Orders:__
  - Wandering along “S”
  - Jumping one cell
  - Randomizing globally
-
-Project Architecture:
-=====================
 
 Conclusions
 ===========
